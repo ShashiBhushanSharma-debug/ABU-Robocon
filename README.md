@@ -36,7 +36,7 @@ This repository marks the contribution made by me in the overall journey of Robo
 ## About the Team
 
 <p align="center">
-  <img src="assets/team-with-bot.jpg" alt="Team member with the robot" width="480"/>
+  <img src="assets/team-with-bot.jpeg" alt="Team member with the robot" width="480"/>
 </p>
 
 <!-- TODO: Replace with your team's story -->
@@ -107,7 +107,7 @@ The robot runs a **multi-MCU architecture**:
 
 #### Arduino Due (32-bit ARM Cortex-M3)
 <p align="center">
-  <img src="assets/arduino-due.jpg" alt="Arduino Due Board" width="400"/>
+  <img src="assets/arduino-due.png" alt="Arduino Due Board" width="400"/>
 </p>
 
 * **Why we used it:** The DD Robocon arena requires micro-second precision for motor control and multiple fast serial ports for inter-board communication. The Due's 84 MHz clock speed and multiple hardware UART/SPI buses made it the perfect backbone over standard 8-bit microcontrollers.
