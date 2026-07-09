@@ -5,7 +5,7 @@ This repository marks the contribution made by me in the overall journey of Robo
   <img src="assets/banner.png" alt="Team Banner" width="850"/>
 </p>
 
-<h1 align="center">[TEAM NAME] — Robocon Multi-MCU Autonomous Robot</h1>
+<h1 align="center">Team Dinobots(KIET Deemed To Be University) — Robocon Multi-MCU Autonomous Robot</h1>
 <p align="center"><i>Built for DD Robocon | Mecanum-drive, FSM-based mission robot</i></p>
 
 <p align="center">
@@ -42,7 +42,7 @@ This repository marks the contribution made by me in the overall journey of Robo
 <!-- TODO: Replace with your team's story -->
 We are a student robotics team competing in **DD Robocon**, building a fully autonomous, multi-MCU robot from the ground up — mechanical design, embedded firmware, control systems, and computer vision. This repository documents our robot's architecture, our mission logic, and everything needed to build, flash, and run the system.
 
-> *[One or two lines here about your team's mission/philosophy — e.g. "We build competition robots that are reliable under pressure and engineered like production hardware."]*
+> *We are Team Dinobots! we are fascinated by robots because they are reflection of ourselves. Bots shows us and our character and we foster on the reflection of ours in them*
 
 ---
 
@@ -56,7 +56,7 @@ We are a student robotics team competing in **DD Robocon**, building a fully aut
 </p>
 
 <!-- TODO: 3-4 sentence intro to the event -->
-**DD Robocon** is a national-level robotics competition that challenges teams to design and build autonomous and manually-operated robots to complete a themed set of missions under strict time and rule constraints. Teams are judged on innovation, reliability, and completion speed on competition day.
+**DD Robocon** is India's premier national-level robotics competition, serving as the official qualifier for the international ABU Robocon. For 2026, teams face the **"Kung Fu Quest"** theme, which challenges engineering students to build robots capable of martial arts-inspired agility and strategy. Competitors must operate a manual (R1) and an autonomous (R2) robot to assemble weapons in the Martial Club, independently navigate the booby-trapped Meihua Forest to collect Kung Fu Scrolls, and seamlessly combine physically to secure a winning line on a massive 3x3 Tic-Tac-Toe rack, achieving the ultimate "Kung Fu Master" victory.
 
 ---
 
@@ -72,9 +72,9 @@ cd <your-repo>
 
 | Component        | Board              | Role                                   |
 |-------------------|---------------------|-----------------------------------------|
-| Due A             | Arduino Due          | Primary FSM / mission logic controller |
-| Due B / Due C     | Arduino Due / STM32H7 | Motor control, sensor fusion           |
-| Vision Unit       | Jetson Orin Nano      | CV pipeline, object detection          |
+| Due A             | Arduino Due         | Primary FSM / mission logic controller, Outer loop         |
+| Due B / Due C     | Arduino Due         | Motor control, sensor fusion, slave architecture           |
+| Vision Unit       | Jetson Orin Nano    | CV pipeline, object detection, Meihua UI                   |
 
 ---
 
