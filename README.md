@@ -115,7 +115,7 @@ The robot runs a **multi-MCU architecture**:
 
 #### NVIDIA Jetson Orin Nano
 <p align="center">
-  <img src="assets/jetson-orin-nano.jpg" alt="Jetson Orin Nano" width="400"/>
+  <img src="assets/jetson-orin-nano.png" alt="Jetson Orin Nano" width="400"/>
 </p>
 
 * **Why we used it:** The "Kung Fu Quest" theme requires detecting complex objects like the Meihua Forest poles and weapon racks on the fly. The Orin Nano provides massive edge AI computing power in a lightweight footprint, allowing us to run deep learning models without frame drops.
@@ -131,8 +131,10 @@ The robot runs a **multi-MCU architecture**:
 
 #### BNO085 IMU & 4x1D Distance LiDARs
 <p align="center">
-  <img src="assets/sensors-setup.jpg" alt="LiDAR and IMU Sensors" width="400"/>
+  <img src="assets/imu-image.png" alt="IMU Sensors" width="220"/>
+  <img src="assets/lidar-image.png" alt="LIDAR" width="220"/>
 </p>
+
 
 * **Why we used it:** Pure wheel encoder odometry suffers from slip, especially on standard arena carpets. The BNO085 provides a highly stable, drift-free heading (using its internal sensor fusion), while the 1D LiDARs give absolute, millimeter-accurate distances to the arena walls and game elements.
 * **How we used it:** Mounted on the perimeter of the bot and wired to Due C. The IMU ensures the bot stays perfectly straight during the `WEAPON` sequences, and the 1D LiDARs are the core of our `meihuaIrAlign()` positioning logic for scoring on the Tic-Tac-Toe rack.
