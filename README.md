@@ -98,18 +98,56 @@ The robot runs a **multi-MCU architecture**:
 
 ## Hardware Setup
 
-<!-- TODO: fill with your BOM and assembly steps -->
 1. **Chassis assembly** — mecanum wheel base, motor mounts
-2. **Wiring** — motor drivers, encoders, IMU, proximity sensors, 1D distance lidars, Relays, Nematics(pressure)
+2. **Wiring** — motor drivers, encoders, IMU, proximity sensors, 1D distance lidars, Relays, Pneumatics (pressure)
 3. **MCU interconnects** — UART/SPI wiring between Due A ↔ Due B/C ↔ Jetson
 4. **Power distribution** — battery, regulators, fusing, Diodes, Capacitors
 
+### Hardware Used
+
+#### Arduino Due (32-bit ARM Cortex-M3)
+<p align="center">
+  <img src="assets/arduino-due.jpg" alt="Arduino Due Board" width="400"/>
+</p>
+
+* **Why we used it:** The DD Robocon arena requires micro-second precision for motor control and multiple fast serial ports for inter-board communication. The Due's 84 MHz clock speed and multiple hardware UART/SPI buses made it the perfect backbone over standard 8-bit microcontrollers.
+* **How we used it:** We deployed three Dues in a master-slave architecture. **Due A** acts as the brain (FSM and cascade PID master), **Due B** handles the inner PID loops for the front motors, and **Due C** manages high-speed SPI polling for the IMU and LiDAR arrays.
+
+#### NVIDIA Jetson Orin Nano
+<p align="center">
+  <img src="assets/jetson-orin-nano.jpg" alt="Jetson Orin Nano" width="400"/>
+</p>
+
+* **Why we used it:** The "Kung Fu Quest" theme requires detecting complex objects like the Meihua Forest poles and weapon racks on the fly. The Orin Nano provides massive edge AI computing power in a lightweight footprint, allowing us to run deep learning models without frame drops.
+* **How we used it:** It runs our ROS2 (Humble) environment and YOLO vision pipelines. It takes feeds from the DepthAI cameras, processes bounding boxes and depth data, and streams alignment coordinates down to Due A via a dedicated UART link.
+
+#### Mecanum Wheels & Drive System
+<p align="center">
+  <img src="assets/mecanum-wheels.jpg" alt="Mecanum Wheels Setup" width="400"/>
+</p>
+
+* **Why we used it:** Agility is everything when maneuvering through the booby-trapped Meihua Forest. Mecanum wheels provide holonomic, omnidirectional movement, allowing the bot to strafe sideways or rotate on its axis without needing space for traditional steering arcs.
+* **How we used it:** Integrated into a custom-machined chassis and driven by high-torque DC motors. The kinematics equations are solved in real-time on FreeRTOS, mapping the X, Y, and Theta joystick/autonomous commands to individual wheel RPMs. 
+
+#### BNO085 IMU & 4x1D Distance LiDARs
+<p align="center">
+  <img src="assets/sensors-setup.jpg" alt="LiDAR and IMU Sensors" width="400"/>
+</p>
+
+* **Why we used it:** Pure wheel encoder odometry suffers from slip, especially on standard arena carpets. The BNO085 provides a highly stable, drift-free heading (using its internal sensor fusion), while the 1D LiDARs give absolute, millimeter-accurate distances to the arena walls and game elements.
+* **How we used it:** Mounted on the perimeter of the bot and wired to Due C. The IMU ensures the bot stays perfectly straight during the `WEAPON` sequences, and the 1D LiDARs are the core of our `meihuaIrAlign()` positioning logic for scoring on the Tic-Tac-Toe rack.
+
+### Bill of Materials (BOM)
+
 | Part | Qty | Notes |
 |------|-----|-------|
-| Arduino Due | 2–3 | Due A / B / C |
-| Jetson Orin Nano | 1 | Vision/compute |
-| Mecanum wheels | 4 | — |
-| ... | ... | ... |
+| Arduino Due | 3 | Due A (Master) / Due B / Due C |
+| Jetson Orin Nano | 1 | Vision/compute node |
+| Mecanum wheels | 4 | Holonomic drive base |
+| High-Torque DC Motors | 4 | With quadrature encoders |
+| BNO085 IMU | 1 | For rotational odometry / heading |
+| 1D Distance LiDAR | 4 | For absolute positioning against walls |
+| Motor Drivers | 4 | High-current H-Bridges |
 
 ---
 
