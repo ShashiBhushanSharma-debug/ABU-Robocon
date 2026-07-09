@@ -72,9 +72,10 @@ cd <your-repo>
 
 | Component        | Board              | Role                                   |
 |-------------------|---------------------|-----------------------------------------|
-| Due A             | Arduino Due         | Primary FSM / mission logic controller, Outer loop         |
-| Due B / Due C     | Arduino Due         | Motor control, sensor fusion, slave architecture           |
-| Vision Unit       | Jetson Orin Nano    | CV pipeline, object detection, Meihua UI                   |
+| Due A             | Arduino Due         | Primary FSM / mission logic controller, Outer loop motor control and Inner loop motor control(rear motors)        |
+| Due B             | Arduino Due         | Inner Loop motor control, slave of DUE A(front motor control)                                                     |
+| Due C             | Arduino Due         | Sensor Integration, SPI communication with DUE A, 4X1D distance Lidar integration                                 |
+| Vision Unit       | Jetson Orin Super Nano    | CV pipeline, object detection, Meihua UI                                                                          |
 
 ---
 
@@ -86,11 +87,12 @@ cd <your-repo>
 </p>
 
 The robot runs a **multi-MCU architecture**:
-- **Due A** — top-level FSM mission controller, coordinates mission sequencing (`WEAPON`, `MEIHUA`, `TICTAC`)
-- **Due B / STM32H7** — mecanum wheel kinematics, cascade PID motor control (FreeRTOS)
+- **Due A** — top-level FSM mission controller, coordinates mission sequencing (`WEAPON`, `MEIHUA`, `TICTAC`, `LIFITNG`), cascade PID motor control (FreeRTOS), mecanum wheel kinematics
+- **Due B** — Inner PID loop(fron motor control), Slave architect of DUE A
+- **Due C** — Handles SPI comms with DUE A, 4X1D distance lidar inegration, BN085 IMU
 - **Jetson Orin Nano** — vision pipeline (YOLO / DepthAI), feeds detections upstream
 
-**Inter-MCU communication:** UART and SPI links between Due A, Due B/C, and the vision unit.
+**Inter-MCU communication:** UART and SPI links between Due A, Due B and C, and the vision unit.
 
 ---
 
@@ -98,14 +100,13 @@ The robot runs a **multi-MCU architecture**:
 
 <!-- TODO: fill with your BOM and assembly steps -->
 1. **Chassis assembly** — mecanum wheel base, motor mounts
-2. **Wiring** — motor drivers, encoders, IMU, IR/ultrasonic sensors
+2. **Wiring** — motor drivers, encoders, IMU, proximity sensors, 1D distance lidars, Relays, Nematics(pressure)
 3. **MCU interconnects** — UART/SPI wiring between Due A ↔ Due B/C ↔ Jetson
-4. **Power distribution** — battery, regulators, fusing
+4. **Power distribution** — battery, regulators, fusing, Diodes, Capacitors
 
 | Part | Qty | Notes |
 |------|-----|-------|
 | Arduino Due | 2–3 | Due A / B / C |
-| STM32H7 | 1 | Motor control core |
 | Jetson Orin Nano | 1 | Vision/compute |
 | Mecanum wheels | 4 | — |
 | ... | ... | ... |
