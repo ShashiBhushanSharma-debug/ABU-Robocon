@@ -2,7 +2,7 @@
 This repository marks the contribution made by me in the overall journey of Robocon and how did we implemented different ideas into hardware reality. It contain all the methodology implemented by me and how did that helped in the overall dedvelopment of the autonomous bot.
 
 <p align="center">
-  <img src="assets/banner.png" alt="Team Banner" width="850"/>
+  <img src="assets/team-banner.jpeg" alt="Team Banner" width="850"/>
 </p>
 
 <h1 align="center">Team Dinobots(KIET Deemed To Be University) — Robocon Multi-MCU Autonomous Robot</h1>
