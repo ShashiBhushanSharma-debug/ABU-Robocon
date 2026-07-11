@@ -123,7 +123,7 @@ The robot runs a **multi-MCU architecture**:
 
 #### Mecanum Wheels & Drive System
 <p align="center">
-  <img src="assets/mecanum-wheels.jpg" alt="Mecanum Wheels Setup" width="400"/>
+  <img src="assets/meccanum-wheels.png" alt="Mecanum Wheels Setup" width="400"/>
 </p>
 
 * **Why we used it:** Agility is everything when maneuvering through the booby-trapped Meihua Forest. Mecanum wheels provide holonomic, omnidirectional movement, allowing the bot to strafe sideways or rotate on its axis without needing space for traditional steering arcs.
