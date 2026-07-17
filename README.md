@@ -151,7 +151,57 @@ The robot runs a **multi-MCU architecture**:
 | 1D Distance LiDAR | 4 | For absolute positioning against walls |
 | Motor Drivers | 4 | High-current H-Bridges |
 
+## System Architecture
+ 
+[#system-architecture](#system-architecture)
+ 
+[![System architecture diagram](https://github.com/ShashiBhushanSharma-debug/ABU-Robocon/raw/main/assets/architecture-diagram.png)](/ShashiBhushanSharma-debug/ABU-Robocon/blob/main/assets/architecture-diagram.png)
+ 
+The robot runs a **four-board distributed control system**:
+ 
+- **Due A (Master / Brain)** — mechanical-switch-based FSM for mission sequencing (`WEAPON`, `MEIHUA`, `TICTAC`), outer-loop kinematics, and inner-loop cascade PID for the rear motors
+- **Due B (Slave)** — inner-loop PID for the front motors, commanded by Due A
+- **Due C (Sensor Hub)** — polls 4x TFmini Plus distance LiDARs over UART at 500 Hz and a BNO085 IMU over SPI at 100 kHz, then relays fused data to Due A over a dedicated SPI link at 125 kHz — a clock rate arrived at through testing, since higher speeds introduced garbage values that couldn't be filtered out
+- **Mega (Actuation)** — drives 5 pneumatic actuators through relays, reads 3 proximity sensors, and controls every servo on the R2 bot
+- **Jetson Orin Nano (Vision)** — YOLO / DepthAI pipeline, streams detections to Due A over a dedicated UART link
+**Inter-board communication:** UART between Due C ↔ Mega and Jetson ↔ Due A, SPI between Due C ↔ Due A, UART between Due A ↔ Due B.
+ 
+> ⚠️ **Note for later cleanup:** the "Quick Start" table and "Software / Firmware Build & Flash" section elsewhere in the README still reference an old STM32H7-based layout — update those to match the four-board Due A / Due B / Due C / Mega + Jetson architecture above so the whole doc is consistent.
+ 
 ---
+ 
+## My Contribution
+ 
+[#my-contribution](#my-contribution)
+ 
+*Designed, built, and integrated over a **25-day** development cycle.*
+ 
+I owned the sensor-integration and mission-logic layer across all three autonomous missions:
+ 
+### Phase 1 — WEAPON
+ 
+Built the proximity-sensor-based detection and triggering system that drives the WEAPON assembly sequence, reading directly into Due A's FSM for state transitions.
+ 
+🎥 *[Practice-run video — add unlisted YouTube link here]*
+ 
+### Phase 2 — MEIHUA Forest
+ 
+**High-level path planning:** built a screen-based planning tool — an operator marks the R1 crate, R2 crate, and fake-crate positions along with the Meihua post heights on screen, and given the arena's physical constraints, the algorithm generates a path automatically. That path is dumped to Due A, which parses it into real-time motion commands.
+*(To be added as a git submodule — coming soon.)*
+ 
+**Ascending/descending mechanism:** pneumatic actuators on the front and rear wheel bases, each with a 200 mm stroke. Two downward-facing proximity sensors (15 cm threshold — read low when nothing is within range) sit near the front and rear wheel-base corners. During descent, Due A issues a 200–300 mm stroke command, but the instant either proximity sensor reads low it interrupts the motion immediately and triggers the next FSM state — retracting the front wheel base, then the rear — so descent adapts to actual ground contact instead of running a fixed blind stroke.
+ 
+🎥 *[Meihua Forest crossing — practice-run video, unlisted YouTube link here]*
+ 
+### Phase 3 — TIC-TAC-TOE (Box Placement)
+ 
+Used 3 of the 4 TFmini LiDARs (front, right, rear) for precision box placement in the Tic-Tac-Toe arena. After driving 4.2 m forward into position, the bot PID-controls itself to hold specific target distances from all three LiDARs simultaneously before executing the lift and place.
+ 
+🎥 *[Box placement / lifting video — unlisted YouTube link here]*
+ 
+---
+ 
+
 
 ## Software / Firmware Build & Flash
 
@@ -189,7 +239,7 @@ arduino-cli upload  -p <PORT> --fqbn arduino:sam:arduino_due_x due_a/
 
 | Mission | Description |
 |---------|--------------|
-| **WEAPON** | [Brief mission description] |
+| **WEAPON** | In this mission we needed to |
 | **MEIHUA** | IR-sensor alignment and positioning mission (`meihuaIrAlign()`) |
 | **TICTAC** | [Brief mission description] |
 
