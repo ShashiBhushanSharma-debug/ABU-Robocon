@@ -80,19 +80,20 @@ cd <your-repo>
 ---
 
 ## System Architecture
-
-<!-- TODO: embed or link an architecture diagram, e.g. assets/architecture.png -->
-<p align="center">
-  <img src="assets/architecture-diagram.png" alt="System architecture diagram" width="700"/>
-</p>
-
-The robot runs a **multi-MCU architecture**:
-- **Due A** — top-level FSM mission controller, coordinates mission sequencing (`WEAPON`, `MEIHUA`, `TICTAC`, `LIFITNG`), cascade PID motor control (FreeRTOS), mecanum wheel kinematics
-- **Due B** — Inner PID loop(fron motor control), Slave architect of DUE A
-- **Due C** — Handles SPI comms with DUE A, 4X1D distance lidar inegration, BN085 IMU
-- **Jetson Orin Nano** — vision pipeline (YOLO / DepthAI), feeds detections upstream
-
-**Inter-MCU communication:** UART and SPI links between Due A, Due B and C, and the vision unit.
+ 
+[![System architecture diagram](https://github.com/ShashiBhushanSharma-debug/ABU-Robocon/raw/main/assets/architecture-diagram.png)](/ShashiBhushanSharma-debug/ABU-Robocon/blob/main/assets/architecture-diagram.png)
+ 
+The robot runs a **four-board distributed control system**:
+ 
+- **Due A (Master / Brain)** — mechanical-switch-based FSM for mission sequencing (`WEAPON`, `MEIHUA`, `TICTAC`), outer-loop kinematics, and inner-loop cascade PID for the rear motors
+- **Due B (Slave)** — inner-loop PID for the front motors, commanded by Due A
+- **Due C (Sensor Hub)** — polls 4x TFmini Plus distance LiDARs over UART at 500 Hz and a BNO085 IMU over SPI at 100 kHz, then relays fused data to Due A over a dedicated SPI link at 125 kHz — a clock rate arrived at through testing, since higher speeds introduced garbage values that couldn't be filtered out
+- **Mega (Actuation)** — drives 5 pneumatic actuators through relays, reads 3 proximity sensors, and controls every servo on the R2 bot
+- **Jetson Orin Nano (Vision)** — YOLO / DepthAI pipeline, streams detections to Due A over a dedicated UART link
+**Inter-board communication:** UART between Due C ↔ Mega and Jetson ↔ Due A, SPI between Due C ↔ Due A, UART between Due A ↔ Due B.
+ 
+> ⚠️ **Note for later cleanup:** the "Quick Start" table and "Software / Firmware Build & Flash" section elsewhere in the README still reference an old STM32H7-based layout — update those to match the four-board Due A / Due B / Due C / Mega + Jetson architecture above so the whole doc is consistent.
+ 
 
 ---
 
@@ -150,24 +151,6 @@ The robot runs a **multi-MCU architecture**:
 | BNO085 IMU | 1 | For rotational odometry / heading |
 | 1D Distance LiDAR | 4 | For absolute positioning against walls |
 | Motor Drivers | 4 | High-current H-Bridges |
-
-## System Architecture
- 
-[#system-architecture](#system-architecture)
- 
-[![System architecture diagram](https://github.com/ShashiBhushanSharma-debug/ABU-Robocon/raw/main/assets/architecture-diagram.png)](/ShashiBhushanSharma-debug/ABU-Robocon/blob/main/assets/architecture-diagram.png)
- 
-The robot runs a **four-board distributed control system**:
- 
-- **Due A (Master / Brain)** — mechanical-switch-based FSM for mission sequencing (`WEAPON`, `MEIHUA`, `TICTAC`), outer-loop kinematics, and inner-loop cascade PID for the rear motors
-- **Due B (Slave)** — inner-loop PID for the front motors, commanded by Due A
-- **Due C (Sensor Hub)** — polls 4x TFmini Plus distance LiDARs over UART at 500 Hz and a BNO085 IMU over SPI at 100 kHz, then relays fused data to Due A over a dedicated SPI link at 125 kHz — a clock rate arrived at through testing, since higher speeds introduced garbage values that couldn't be filtered out
-- **Mega (Actuation)** — drives 5 pneumatic actuators through relays, reads 3 proximity sensors, and controls every servo on the R2 bot
-- **Jetson Orin Nano (Vision)** — YOLO / DepthAI pipeline, streams detections to Due A over a dedicated UART link
-**Inter-board communication:** UART between Due C ↔ Mega and Jetson ↔ Due A, SPI between Due C ↔ Due A, UART between Due A ↔ Due B.
- 
-> ⚠️ **Note for later cleanup:** the "Quick Start" table and "Software / Firmware Build & Flash" section elsewhere in the README still reference an old STM32H7-based layout — update those to match the four-board Due A / Due B / Due C / Mega + Jetson architecture above so the whole doc is consistent.
- 
 ---
  
 ## My Contribution
