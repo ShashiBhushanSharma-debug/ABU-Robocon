@@ -169,15 +169,15 @@ Built the proximity-sensor-based detection and triggering system that drives the
 **High-level path planning:** built a screen-based planning tool — an operator marks the R1 crate, R2 crate, and fake-crate positions along with the Meihua post heights on screen, and given the arena's physical constraints, the algorithm generates a path automatically. That path is dumped to Due A, which parses it into real-time motion commands.
 *(To be added as a git submodule — coming soon.)*
  
-**Ascending/descending mechanism:** pneumatic actuators on the front and rear wheel bases, each with a 200 mm stroke. Two downward-facing proximity sensors (15 cm threshold — read low when nothing is within range) sit near the front and rear wheel-base corners. During descent, Due A issues a 200–300 mm stroke command, but the instant either proximity sensor reads low it interrupts the motion immediately and triggers the next FSM state — retracting the front wheel base, then the rear — so descent adapts to actual ground contact instead of running a fixed blind stroke.
+**Ascending/descending mechanism:** pneumatic actuators on the front and rear wheel bases, each with a 200 mm stroke. Pneumatic actuators on the front and rear wheel bases handle ground contact for box lift. Two downward-facing proximity sensors (15 cm threshold) sit near the front and rear wheel-base corners. After centering, Due A drives the bot forward a fixed distance — half the box length + 100 mm. The instant either proximity sensor reads **high** during this approach, it immediately interrupts the motion and triggers the next FSM state — extending the front wheel-base pneumatics, then the rear — so placement adapts to actual position instead of running a fixed blind travel.
  
-🎥 *[Meihua Forest crossing — practice-run video, unlisted YouTube link here]*
+[![Meihua Forest](https://img.youtube.com/vi/QbLdAQgZw9U/maxresdefault.jpg)](https://youtu.be/K5wui9NVLXA)
  
 ### Phase 3 — TIC-TAC-TOE (Box Placement)
  
 Used 3 of the 4 TFmini LiDARs (front, right, rear) for precision box placement in the Tic-Tac-Toe arena. After driving 4.2 m forward into position, the bot PID-controls itself to hold specific target distances from all three LiDARs simultaneously before executing the lift and place.
  
-🎥 *[Box placement / lifting video — unlisted YouTube link here]*
+[![box placement](https://img.youtube.com/vi/QbLdAQgZw9U/maxresdefault.jpg)](https://youtu.be/J3ko_tcKxG4)
  
 ---
  
