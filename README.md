@@ -162,7 +162,7 @@ I owned the sensor-integration and mission-logic layer across all three autonomo
  
 Built the proximity-sensor-based detection and triggering system that drives the WEAPON assembly sequence, reading directly into Due A's FSM for state transitions.
  
-🎥 *[(https://youtu.be/QbLdAQgZw9U)]*
+[![WEAPON sequence](https://img.youtube.com/vi/QbLdAQgZw9U/maxresdefault.jpg)](https://youtu.be/QbLdAQgZw9U)
  
 ### Phase 2 — MEIHUA Forest
  
