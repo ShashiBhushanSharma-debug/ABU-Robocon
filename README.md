@@ -90,10 +90,7 @@ The robot runs a **four-board distributed control system**:
 - **Due C (Sensor Hub)** — polls 4x TFmini Plus distance LiDARs over UART at 500 Hz and a BNO085 IMU over SPI at 100 kHz, then relays fused data to Due A over a dedicated SPI link at 125 kHz — a clock rate arrived at through testing, since higher speeds introduced garbage values that couldn't be filtered out
 - **Mega (Actuation)** — drives 5 pneumatic actuators through relays, reads 3 proximity sensors, and controls every servo on the R2 bot
 - **Jetson Orin Nano (Vision)** — YOLO / DepthAI pipeline, streams detections to Due A over a dedicated UART link
-**Inter-board communication:** UART between Due C ↔ Mega and Jetson ↔ Due A, SPI between Due C ↔ Due A, UART between Due A ↔ Due B.
- 
-> ⚠️ **Note for later cleanup:** the "Quick Start" table and "Software / Firmware Build & Flash" section elsewhere in the README still reference an old STM32H7-based layout — update those to match the four-board Due A / Due B / Due C / Mega + Jetson architecture above so the whole doc is consistent.
- 
+**Inter-board communication:** UART between Due C ↔ Mega and Jetson ↔ Due A, SPI between Due C ↔ Due A, UART between Due A ↔ Due B. 
 
 ---
 
@@ -165,7 +162,7 @@ I owned the sensor-integration and mission-logic layer across all three autonomo
  
 Built the proximity-sensor-based detection and triggering system that drives the WEAPON assembly sequence, reading directly into Due A's FSM for state transitions.
  
-🎥 *[Practice-run video — add unlisted YouTube link here]*
+🎥 *[(https://youtu.be/QbLdAQgZw9U)]*
  
 ### Phase 2 — MEIHUA Forest
  
