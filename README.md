@@ -181,57 +181,12 @@ Used 3 of the 4 TFmini LiDARs (front, right, rear) for precision box placement i
  
 ---
  
-
-
-## Software / Firmware Build & Flash
-
-<!-- TODO: fill in exact toolchain/commands you use -->
-```bash
-# Example — adjust to your actual build system
-# Arduino Due (Due A / mission FSM)
-arduino-cli compile --fqbn arduino:sam:arduino_due_x due_a/
-arduino-cli upload  -p <PORT> --fqbn arduino:sam:arduino_due_x due_a/
-
-# STM32H7 (motor control)
-# Build via STM32CubeIDE / Makefile, flash via ST-Link
-```
-
-| Board | Toolchain | Flash Method |
-|-------|-----------|--------------|
-| Due A/B | Arduino IDE / arduino-cli | USB (native port) |
-| STM32H7 | STM32CubeIDE | ST-Link |
-| Jetson Orin Nano | ROS2 (Humble) / Python | SSH / direct |
-
----
-
-## Running the Robot
-
-<!-- TODO: describe your actual startup sequence -->
-1. Power on chassis and confirm all MCU heartbeat LEDs
-2. Launch vision pipeline on Jetson: `ros2 launch <package> vision.launch.py`
-3. Verify UART/SPI link status between Due A and Due B/C
-4. Trigger mission start (button / switch / remote command)
-5. Monitor FSM state over serial (baud: `<rate>`)
-
----
-
-## Missions
-
-| Mission | Description |
-|---------|--------------|
-| **WEAPON** | In this mission we needed to |
-| **MEIHUA** | IR-sensor alignment and positioning mission (`meihuaIrAlign()`) |
-| **TICTAC** | [Brief mission description] |
-
----
-
 ## Tech Stack
 
 **Languages:** C, C++, Python
-**Frameworks/RTOS:** FreeRTOS, ROS2 (Humble)
 **Vision:** YOLO (v5/v7/v8), DepthAI, OpenCV
 **Control:** Cascade PID, mecanum wheel kinematics, FSM mission logic
-**Hardware:** Arduino Due, STM32H7, Jetson Orin Nano
+**Hardware:** Arduino Due, Jetson Orin Nano
 
 ---
 
