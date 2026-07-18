@@ -171,13 +171,13 @@ Built the proximity-sensor-based detection and triggering system that drives the
  
 **Ascending/descending mechanism:** pneumatic actuators on the front and rear wheel bases, each with a 200 mm stroke. Pneumatic actuators on the front and rear wheel bases handle ground contact for box lift. Two downward-facing proximity sensors (15 cm threshold) sit near the front and rear wheel-base corners. After centering, Due A drives the bot forward a fixed distance — half the box length + 100 mm. The instant either proximity sensor reads **high** during this approach, it immediately interrupts the motion and triggers the next FSM state — extending the front wheel-base pneumatics, then the rear — so placement adapts to actual position instead of running a fixed blind travel.
  
-[![Meihua Forest](https://img.youtube.com/vi/QbLdAQgZw9U/maxresdefault.jpg)](https://youtu.be/K5wui9NVLXA)
+[![Meihua Forest](https://img.youtube.com/vi/K5wui9NVLXA/maxresdefault.jpg)](https://youtu.be/K5wui9NVLXA)
  
 ### Phase 3 — TIC-TAC-TOE (Box Placement)
  
 Used 3 of the 4 TFmini LiDARs (front, right, rear) for precision box placement in the Tic-Tac-Toe arena. After driving 4.2 m forward into position, the bot PID-controls itself to hold specific target distances from all three LiDARs simultaneously before executing the lift and place.
  
-[![box placement](https://img.youtube.com/vi/QbLdAQgZw9U/maxresdefault.jpg)](https://youtu.be/J3ko_tcKxG4)
+[![box placement](https://img.youtube.com/vi/J3ko_tcKxG4/maxresdefault.jpg)](https://youtu.be/J3ko_tcKxG4)
  
 ---
  
